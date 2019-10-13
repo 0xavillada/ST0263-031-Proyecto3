@@ -1,4 +1,5 @@
 import sys
+from mpi4py import MPI
 
 class Aligner:
     def __init__(self):
@@ -42,12 +43,12 @@ class Aligner:
             index += 1
         self.n_cadenas = len(self.cadenas)
 
-    def fill_matriz(self):
-        for i in range(self.n_cadenas):
+    def fill_matriz(self, inicio, fin):
+        for i in range(inicio,fin):
             self.cadenas[i] = self.cadenas[i] + "-"*(self.base_lenght-len(self.cadenas[i]))
 
-    def align(self):
-        for i in range(self.n_cadenas):
+    def align(self, inicio, fin):
+        for i in range(inicio,fin):
             for j in range(self.base_lenght-1,1,-1):
                 if i == self.base_index or self.cadenas[i][j] != "-":
                     break
@@ -61,8 +62,8 @@ class Aligner:
                     self.cadenas[i] = self.cadenas[i][:j]+self.cadenas[i][ultima_letra]+self.cadenas[i][j+1:]
                     self.cadenas[i] = self.cadenas[i][:ultima_letra]+"-"+self.cadenas[i][ultima_letra+1:]
 
-    def calc_score(self):
-        for j in range(self.base_lenght):
+    def calc_score(self, inicio, fin):
+        for j in range(inicio,fin):
             score_column = 0
             for i in range(self.n_cadenas-1):
                 for k in range(i+1, self.n_cadenas):
@@ -84,7 +85,6 @@ class Aligner:
         print("Score: ",self.score_total)
         print("Tasa: ",self.score_total/self.n_cadenas)
 
-
 error = False
 try:
     aligner = Aligner()
@@ -94,18 +94,56 @@ except ValueError:
     error = True
 
 if error == False:
+    
+    comm = MPI.COMM_WORLD
+    rank = comm.rank
+    name = MPI.Get_processor_name()
+    print(name)
+    print(rank)
+    n_cadenas_medium = int((aligner.n_cadenas / 2) - ((aligner.n_cadenas / 2) % 1))
+    print(n_cadenas_medium)
+    base_lenght_medium = int((aligner.base_lenght /2) - ((aligner.base_lenght / 2) % 1))
+
     #-------------------------------------------------------------------------fill matriz
-    aligner.fill_matriz()
+    if rank == 0:
+        aligner.fill_matriz(0,n_cadenas_medium)
+        otherRank_cadenas = comm.recv(source=1)
+        aligner.cadenas = aligner.cadenas[:n_cadenas_medium] + otherRank_cadenas
+        comm.send(aligner.cadenas, dest=1)
+
+    if rank == 1:
+        aligner.fill_matriz(n_cadenas_medium,aligner.n_cadenas)
+        comm.send(aligner.cadenas[n_cadenas_medium:], dest=0)
+        aligner.cadenas = comm.recv(source=0)
+
     #------------------------------------------------------------------------------------/
 
     #------------------------------------------------------------------------alineamiento
-    aligner.align()
+    if rank == 0:
+        aligner.align(0,n_cadenas_medium)
+        otherRank_cadenas = comm.recv(source=1)
+        aligner.cadenas = aligner.cadenas[:n_cadenas_medium] + otherRank_cadenas
+        comm.send(aligner.cadenas, dest=1)
+
+    if rank == 1:
+        aligner.align(n_cadenas_medium,aligner.n_cadenas)
+        comm.send(aligner.cadenas[n_cadenas_medium:], dest=0)
+        aligner.cadenas = comm.recv(source=0)
+
     #------------------------------------------------------------------------------------/
 
     #--------------------------------------------------------------calculo de score total
-    aligner.calc_score()
+
+    if rank == 0:
+        aligner.calc_score(0,base_lenght_medium)
+        otherRank_score = comm.recv(source=1)
+        aligner.score_total += otherRank_score
+    #---------------------------------------------------------------------salida de datos
+        aligner.show()
     #------------------------------------------------------------------------------------/
 
-    #---------------------------------------------------------------------salida de datos
-    aligner.show()
+    if rank == 1:
+        aligner.calc_score(base_lenght_medium,aligner.base_lenght)
+        comm.send(aligner.score_total, dest=0)
+
     #------------------------------------------------------------------------------------/
