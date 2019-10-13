@@ -16,9 +16,6 @@ try:
 except:
     print("> Usage: python alignment-serial.py <strings file> <match value> <mismatch value> <gap value>")
 
-def read_file():
-    pass
-
 def main():
     #-----------------------------------------------------------read file and load matriz
     try:
@@ -91,12 +88,12 @@ def main():
     #------------------------------------------------------------------------------------/
 
     #---------------------------------------------------------------------salida de datos
-    print cadenas
-    print "Numero de cadenas: ",n_cadenas
-    print "Posicion de la base: ",base_index
-    print "Longitud de la base: ",base_lenght
-    print "Score: ",score_total
-    print "Tasa: ",score_total/n_cadenas
+    print(cadenas)
+    print("Numero de cadenas: ",n_cadenas)
+    print("Posicion de la base: ",base_index)
+    print("Longitud de la base: ",base_lenght)
+    print("Score: ",score_total)
+    print("Tasa: ",score_total/n_cadenas)
     #------------------------------------------------------------------------------------/
 
 main()
