@@ -1,4 +1,5 @@
 import sys
+import time
 
 try:
     fichero = sys.argv[1]
@@ -88,12 +89,15 @@ def main():
     #------------------------------------------------------------------------------------/
 
     #---------------------------------------------------------------------salida de datos
-    print(cadenas)
+    #print(cadenas)
     print("Numero de cadenas: ",n_cadenas)
     print("Posicion de la base: ",base_index)
     print("Longitud de la base: ",base_lenght)
     print("Score: ",score_total)
     print("Tasa: ",score_total/n_cadenas)
+    f = open(fichero[:-4]+"_out.txt", "w+")
+    for x in cadenas:
+        f.write(x+"\n")
     #------------------------------------------------------------------------------------/
 
 main()

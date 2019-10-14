@@ -1,6 +1,7 @@
 import sys
 from mpi4py import MPI
 import threading
+import time
 
 class Aligner:
     def __init__(self):
@@ -13,15 +14,12 @@ class Aligner:
             self.n_threads = int(sys.argv[5])
 
         except:
-            raise ValueError("> Usage: python alignment-serial.py <strings file> <match value> <mismatch value> <gap value>")
+            raise ValueError("> Usage: python alignment-serial.py <strings file> <match value> <mismatch value> <gap value> <number of threads>")
 
         self.cadenas = []
         self.base_lenght = 0
         self.base_index = 0
         self.n_cadenas = 0
-
-        self.base_lenght_segment = int(self.base_lenght / self.n_threads)
-        self.n_cadenas_segment = int(self.n_cadenas / self.n_threads)
 
         self.score_total = 0
 
@@ -46,56 +44,43 @@ class Aligner:
                     self.base_index = index
             index += 1
         self.n_cadenas = len(self.cadenas)
+       
+        self.base_lenght_segment = int(self.base_lenght / self.n_threads)
+        self.n_cadenas_segment = int(self.n_cadenas / self.n_threads)
+
 
     def threading_segments(self, inicio, fin, target_thread, segment):
+        if segment == 0:
+           segment = 1
         inicio_thread = inicio
         for hilo in range(self.n_threads):
-            if (inicio_thread + segment) > fin:
-                t = threading.Thread(target=target_thread, args=(self, inicio_thread, fin))
-                t.start()
+            if (inicio_thread + segment) > fin or ((inicio_thread + segment)+segment) > fin:
+                if target_thread == 1:
+                    t = threading.Thread(target=self.fill_matriz_thread, args=(inicio_thread, fin))
+                    t.start()
+                elif target_thread == 2:
+                    t = threading.Thread(target=self.align_thread, args=(inicio_thread, fin))
+                    t.start()
+                else:
+                    t = threading.Thread(target=self.calc_score_thread, args=(inicio_thread, fin))
+                    t.start()
                 break
             else:
-                t = threading.Thread(target=target_thread, args=(self, inicio_thread, (inicio_thread + segment)))
-                t.start()
+
+                if target_thread == 1:
+                    t = threading.Thread(target=self.fill_matriz_thread, args=(inicio_thread, (inicio_thread + segment)))
+                    t.start()
+                elif target_thread == 2:
+                    t = threading.Thread(target=self.align_thread, args=(inicio_thread, (inicio_thread + segment)))
+                    t.start()
+                else:
+                    t = threading.Thread(target=self.calc_score_thread, args=(inicio_thread, (inicio_thread + segment)))
+                    t.start()
             inicio_thread += segment
-
-
-    def fill_matriz(self, inicio, fin):
-        pass
-        #threading_segments(self, inicio, fin, self.fill_matriz_thread, self.base_lenght_segment)
-        
-        """
-        inicio_thread = inicio
-        for hilo in range(self.n_threads):
-            if (inicio_thread + self.base_lenght_segment) > fin:
-                t = threading.Thread(target=fill_matriz_thread, args=(self, inicio_thread, fin))
-                t.start()
-                break
-            else:
-                t = threading.Thread(target=fill_matriz_thread, args=(self, inicio_thread, (inicio_thread + self.base_lenght_segment)))
-                t.start()
-            inicio_thread += self.base_lenght_segment
-        """
 
     def fill_matriz_thread(self, inicio, fin):
         for i in range(inicio,fin):
             self.cadenas[i] = self.cadenas[i] + "-"*(self.base_lenght-len(self.cadenas[i]))
-
-
-    def align(self, inicio, fin):
-        pass
-        """
-        inicio_thread = inicio
-        for hilo in range(self.n_threads):
-            if (inicio_thread + self.base_lenght_segment) > fin:
-                t = threading.Thread(target=align_thread, args=(self, inicio_thread, fin))
-                t.start()
-                break
-            else:
-                t = threading.Thread(target=align_thread, args=(self, inicio_thread, (inicio_thread + self.base_lenght_segment)))
-                t.start()
-            inicio_thread += self.base_lenght_segment
-        """
 
     def align_thread(self, inicio, fin):
         for i in range(inicio,fin):
@@ -112,21 +97,6 @@ class Aligner:
                     self.cadenas[i] = self.cadenas[i][:j]+self.cadenas[i][ultima_letra]+self.cadenas[i][j+1:]
                     self.cadenas[i] = self.cadenas[i][:ultima_letra]+"-"+self.cadenas[i][ultima_letra+1:]
 
-    def calc_score(self, inicio, fin):
-        pass
-        """
-        inicio_thread = inicio
-        for hilo in range(self.n_threads):
-            if (inicio_thread + self.n_cadenas_segment) > fin:
-                t = threading.Thread(target=calc_score_thread, args=(self, inicio_thread, fin))
-                t.start()
-                break
-            else:
-                t = threading.Thread(target=calc_score_thread, args=(self, inicio_thread, (inicio_thread + self.n_cadenas_segment)))
-                t.start()
-            inicio_thread += self.n_cadenas_segment
-        """
-
     def calc_score_thread(self, inicio, fin):
         for j in range(inicio,fin):
             score_column = 0
@@ -139,11 +109,14 @@ class Aligner:
                             score_column += self.match_value
                     else:
                         score_column += self.mismatch_value
-
             self.score_total += score_column
 
     def show(self):
         print(self.cadenas)
+        f = open(self.fichero[:-4]+"_out.txt","w+")
+        for x in self.cadenas:
+            f.write(x+"\n")
+
         print("Numero de cadenas: ",self.n_cadenas)
         print("Posicion de la base: ",self.base_index)
         print("Longitud de la base: ",self.base_lenght)
@@ -170,7 +143,7 @@ if error == False:
     if rank == 0:
         #aligner.fill_matriz(0,n_cadenas_medium)
         
-        aligner.threading_segments(0, n_cadenas_medium, aligner.fill_matriz_thread, aligner.base_lenght_segment)
+        aligner.threading_segments(0, n_cadenas_medium, 1, aligner.base_lenght_segment)
         
         otherRank_cadenas = comm.recv(source=1)
         aligner.cadenas = aligner.cadenas[:n_cadenas_medium] + otherRank_cadenas
@@ -179,7 +152,7 @@ if error == False:
     if rank == 1:
         #aligner.fill_matriz(n_cadenas_medium,aligner.n_cadenas)
         
-        aligner.threading_segments(n_cadenas_medium, aligner.n_cadenas, aligner.fill_matriz_thread, aligner.base_lenght_segment)
+        aligner.threading_segments(n_cadenas_medium, aligner.n_cadenas, 1, aligner.base_lenght_segment)
 
         comm.send(aligner.cadenas[n_cadenas_medium:], dest=0)
         aligner.cadenas = comm.recv(source=0)
@@ -190,7 +163,7 @@ if error == False:
     if rank == 0:
         #aligner.align(0,n_cadenas_medium)
 
-        aligner.threading_segments(0, n_cadenas_medium, aligner.align_thread, aligner.base_lenght_segment)
+        aligner.threading_segments(0, n_cadenas_medium, 2, aligner.base_lenght_segment)
 
         otherRank_cadenas = comm.recv(source=1)
         aligner.cadenas = aligner.cadenas[:n_cadenas_medium] + otherRank_cadenas
@@ -199,7 +172,7 @@ if error == False:
     if rank == 1:
         #aligner.align(n_cadenas_medium,aligner.n_cadenas)
 
-        aligner.threading_segments(n_cadenas_medium, aligner.n_cadenas, aligner.align_thread, aligner.base_lenght_segment)
+        aligner.threading_segments(n_cadenas_medium, aligner.n_cadenas, 2, aligner.base_lenght_segment)
 
         comm.send(aligner.cadenas[n_cadenas_medium:], dest=0)
         aligner.cadenas = comm.recv(source=0)
@@ -207,25 +180,23 @@ if error == False:
     #------------------------------------------------------------------------------------/
 
     #--------------------------------------------------------------calculo de score total
-
     if rank == 0:
         #aligner.calc_score(0,base_lenght_medium)
 
-        aligner.threading_segments(0, base_lenght_medium, aligner.calc_score_thread, aligner.n_cadenas_segment)
+        aligner.threading_segments(0, base_lenght_medium, 3, aligner.n_cadenas_segment)
 
         otherRank_score = comm.recv(source=1)
         aligner.score_total += otherRank_score
     #---------------------------------------------------------------------salida de datos
+        time.sleep(0.5)
         aligner.show()
     #------------------------------------------------------------------------------------/
 
     if rank == 1:
         #aligner.calc_score(base_lenght_medium,aligner.base_lenght)
 
-        aligner.threading_segments(base_lenght_medium, aligner.base_lenght, aligner.calc_score_thread, aligner.n_cadenas_segment)
+        aligner.threading_segments(base_lenght_medium, aligner.base_lenght, 3, aligner.n_cadenas_segment)
 
         comm.send(aligner.score_total, dest=0)
 
     #------------------------------------------------------------------------------------/
-
-#OJO: PROBAR ASI, DESPUES PROBAR CON CADENAS INPARES, DESPUES PROBAR CON LONGITUD DE CADENAS INPARES
