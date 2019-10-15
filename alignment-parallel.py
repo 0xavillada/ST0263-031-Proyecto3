@@ -200,7 +200,7 @@ if error == False:
         print(otherRank_score)
         aligner.score_total += otherRank_score
     #---------------------------------------------------------------------salida de datos
-        #time.sleep(0.5)
+        time.sleep(0.5)
         aligner.show()
     #------------------------------------------------------------------------------------/
 
