@@ -98,6 +98,7 @@ class Aligner:
                     self.cadenas[i] = self.cadenas[i][:ultima_letra]+"-"+self.cadenas[i][ultima_letra+1:]
 
     def calc_score_thread(self, inicio, fin):
+        score_temp=0
         for j in range(inicio,fin):
             score_column = 0
             for i in range(self.n_cadenas-1):
@@ -109,8 +110,10 @@ class Aligner:
                             score_column += self.match_value
                     else:
                         score_column += self.mismatch_value
-            self.score_total += score_column
-
+            score_temp += score_column
+        self.score_total += score_temp
+        print("-Sco",score_temp)
+        
     def show(self):
         #print(self.cadenas)
         f = open(self.fichero[:-4]+"_out.txt","w+")
@@ -191,7 +194,7 @@ if error == False:
         otherRank_score = comm.recv(source=1)
         aligner.score_total += otherRank_score
     #---------------------------------------------------------------------salida de datos
-        time.sleep(2)
+        time.sleep(0.5)
         aligner.show()
     #------------------------------------------------------------------------------------/
 
