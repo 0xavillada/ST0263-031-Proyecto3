@@ -86,7 +86,8 @@ def main():
                         score_column += match_value
                 else:
                     score_column += mismatch_value
-
+        if(score_column>230):
+            print("*")
         score_total_temp += score_column
     score_total = score_total_temp
     #------------------------------------------------------------------------------------/
