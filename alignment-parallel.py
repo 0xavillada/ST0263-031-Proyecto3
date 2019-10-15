@@ -114,7 +114,7 @@ class Aligner:
                     else:
                         score_column += self.mismatch_value
                         self.cont+=1
-                print(self.cont)
+                
             score_temp += score_column
         self.score_total += score_temp
         print(self.cont)
