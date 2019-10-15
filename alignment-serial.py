@@ -44,7 +44,7 @@ def main():
         index += 1
     
     n_cadenas = len(cadenas)
-    base_lenght = base_lenght_temp -1
+    base_lenght = base_lenght_temp 
     base_index = base_index_temp
     print("Numero de cadenas: ",n_cadenas)
     print("Longitud de la base: ",base_lenght)
