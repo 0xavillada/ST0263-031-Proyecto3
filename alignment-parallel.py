@@ -191,7 +191,7 @@ if error == False:
         otherRank_score = comm.recv(source=1)
         aligner.score_total += otherRank_score
     #---------------------------------------------------------------------salida de datos
-        time.sleep(0.5)
+        time.sleep(2)
         aligner.show()
     #------------------------------------------------------------------------------------/
 
