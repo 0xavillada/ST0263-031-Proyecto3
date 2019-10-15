@@ -192,18 +192,7 @@ if error == False:
     #------------------------------------------------------------------------------------/
 
     #--------------------------------------------------------------calculo de score total
-    if rank == 0:
-        #aligner.calc_score(0,base_lenght_medium)
 
-        aligner.threading_segments(0, base_lenght_medium, 3, aligner.base_lenght_segment)
-
-        otherRank_score = comm.recv(source=1)
-        print(otherRank_score)
-        aligner.score_total += otherRank_score
-    #---------------------------------------------------------------------salida de datos
-        time.sleep(0.5)
-        aligner.show()
-    #------------------------------------------------------------------------------------/
 
     if rank == 1:
         #aligner.calc_score(base_lenght_medium,aligner.base_lenght)
@@ -212,4 +201,16 @@ if error == False:
 
         comm.send(aligner.score_total, dest=0)
 
+    #------------------------------------------------------------------------------------/
+    if rank == 0:
+        #aligner.calc_score(0,base_lenght_medium)
+
+        aligner.threading_segments(0, base_lenght_medium, 3, aligner.base_lenght_segment)
+        MPI_Barrier(MPI_COMM_WORLD);
+        otherRank_score = comm.recv(source=1)
+        print(otherRank_score)
+        aligner.score_total += otherRank_score
+    #---------------------------------------------------------------------salida de datos
+        #time.sleep(0.5)
+        aligner.show()
     #------------------------------------------------------------------------------------/
