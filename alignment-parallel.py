@@ -220,6 +220,7 @@ if error == False:
         aligner.threading_segments(base_lenght_medium, aligner.base_lenght, 3, aligner.base_lenght_segment)
         if(aligner.score_total==0):
             time.sleep(1)
+            print ('rank 1 wait my score...')
         time.sleep(0.5)
         comm.send(aligner.score_total, dest=0,tag=11)
         print("-Esclavo",aligner.score_total)
