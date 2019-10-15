@@ -60,33 +60,37 @@ score = score(G,-) + score(G, G) + score(G,-) + score(-,G) + score (-,-) + score
 
 ## Modulos:
 El problema se divide en 4 puntos importantes, los cuales son :
-- Lectura de archivo: Leer las cadenas de adn y transferirlas a una matriz
-- Rellenado de dna incompletos: Rellenar los dna con "-" para que queden de igual tamaño a la secuencia de adn mas completa
-- Alineamiento de los dna: Alinear los dna de tal forma que quede lo mas similar al adn mas completo
-- Score :Adquirir secore de la matriz formada de dna y determinar por un puntaje que el usuario determina
+- Lectura de archivo: Leer las cadenas de adn y transferirlas a una matriz.
+- Rellenado de adn incompletos: Rellenar los dna con "-" para que queden de igual tamaño a la secuencia de adn mas completa.
+- Alineamiento de los dna: Alinear los adn de tal forma que quede lo mas similar al adn mas completo.
+- Score :Adquirir secore de la matriz formada de adn y determinar por un puntaje que el usuario determina.
 
 ## Implementacion:
 Para este problema se utilizo el lenguaje python acompañada de:
-- mpi4py para el uso de mpi
-- threading para el uso manual de open mp
+- mpi4py para el uso de mpi.
+- threading para el uso manual de open mp.
 
 ### Que no se paralelizo?
 - Lectura de archivo: ya que la libreria que maneja python solo permite leer linea por linea, impidiendo una lectura mas agil
-### Que se paralelizo?
-Antes que nada el programa se ejecuta con 2 nodos(mpi),que a medida se van dando las situaciones el nodo maestro y los trabajadores van compartiendo informacion.
--Relleno de dna incompletos:Aparte 
 
+### Que se paralelizo?
+-Relleno de adn incompletos:Adquirido la matriz, esta es fragmentada dependiendo de la cantidad de hilos que se haya determinado, añadiendo"-", a las cadenas faltantes de caracteres
+- Alineamiento de los dna:Adquirido la matriz, esta es comparada caracter por caracter con la cadena "maestra"(mas completa), y adquiere una forma funcional
+- Score :Adquirida la matriz y una vez fragmentada, esta se compara con la matriz madre , que viene siendo un apuntador para compararse y sacar su puntaje, es decir entonces que cada fila es comparada con sus otras filas determinadas por una columna y una vez hecho esta es sumada con sus otros hilos y finalmente sumadas por los nodos.
+#### NOTA:El programa se ejecuta con 2 nodos(mpi),cada nodo adquiere la mitad de la matriz (cortada de forma horizontal),que a medida se van dando las situaciones el nodo maestro y los trabajadores van compartiendo informacion y como caracter principal .
 
 # Correr el programa serial:
-python3 aligment-serial.py "fichero con cadenas a alinear" "valor coincidencia" "valor no coincidencia" "valor faltante"
+          python3 aligment-serial.py "fichero con cadenas a alinear" "valor coincidencia" "valor no coincidencia" "valor faltante"
 
-Ejemplo: $ time python alignment-serial.py dna50.txt -1 1 0
+Ejemplo: 
+          $ time python alignment-serial.py dna50.txt -1 1 0
 (corriendo: archivo:"dna50.txt" con score(1 mach)(-1 missmach)(0 gab) y 2 hilos))
 
 # Correr el programa paralelo:
-mpiexec -f ./hosts_mpi -np "numero de nodos" /opt/anaconda3/bin/python ./alignment-parallel.py "fichero con cadenas a alinear" "valor coincidencia" "valor no coincidencia" "valor faltante" "numero threads"
+          mpiexec -f ./hosts_mpi -np "numero de nodos" /opt/anaconda3/bin/python ./alignment-parallel.py "fichero con cadenas a alinear" "valor coincidencia" "valor no coincidencia" "valor faltante" "numero threads"
 
-Ejemplo:$ time mpiexec -f ./hosts_mpi -np 2 /opt/anaconda3/bin/python ./alignment-parallel.py dna50.txt 1 -1 0 2 
+Ejemplo:
+          $ time mpiexec -f ./hosts_mpi -np 2 /opt/anaconda3/bin/python ./alignment-parallel.py dna50.txt 1 -1 0 2 
 (corriendo con 2 nodos, el archivo "dna50.txt" con score(1 mach)(-1 missmach)(0 gab) y 2 hilos))
 
 # Test
