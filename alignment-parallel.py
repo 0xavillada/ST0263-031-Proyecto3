@@ -188,7 +188,7 @@ if error == False:
 
         comm.send(aligner.cadenas[n_cadenas_medium:], dest=0)
         while not comm.Iprobe(source=0, tag=12):
-            print 'rank 1 wait matrix...'
+            print ('rank 1 wait matrix...')
             time.sleep(0.1)
         aligner.cadenas = comm.recv(source=0)
 
