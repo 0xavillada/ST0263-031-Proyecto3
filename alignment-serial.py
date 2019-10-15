@@ -97,7 +97,7 @@ def main():
     print("Longitud de la base: ",base_lenght)
     print("Score: ",score_total)
     print("Tasa: ",score_total/n_cadenas)
-    f = open(fichero[:-4]+"_out.txt", "w+")
+    f = open(fichero[:-4]+"_out_serial.txt", "w+")
     for x in cadenas:
         f.write(x+"\n")
     #------------------------------------------------------------------------------------/
