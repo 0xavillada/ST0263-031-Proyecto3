@@ -47,7 +47,7 @@ def main():
     base_lenght = base_lenght_temp
     base_index = base_index_temp
     print("Numero de cadenas: ",n_cadenas)
-    print("Posicion de la base: ",base_index)
+    print("Longitud de la base: ",base_lenght)
     #-----------------------------------------------------------------------------------/
 
     #-------------------------------------------------------------------------fill matriz
