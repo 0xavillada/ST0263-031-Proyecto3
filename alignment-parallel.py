@@ -192,16 +192,6 @@ if error == False:
     #------------------------------------------------------------------------------------/
 
     #--------------------------------------------------------------calculo de score total
-
-
-    if rank == 1:
-        #aligner.calc_score(base_lenght_medium,aligner.base_lenght)
-
-        aligner.threading_segments(base_lenght_medium, aligner.base_lenght, 3, aligner.base_lenght_segment)
-
-        comm.send(aligner.score_total, dest=0)
-
-    #------------------------------------------------------------------------------------/
     if rank == 0:
         #aligner.calc_score(0,base_lenght_medium)
 
@@ -213,3 +203,14 @@ if error == False:
         #time.sleep(0.5)
         aligner.show()
     #------------------------------------------------------------------------------------/
+
+
+    if rank == 1:
+        #aligner.calc_score(base_lenght_medium,aligner.base_lenght)
+
+        aligner.threading_segments(base_lenght_medium, aligner.base_lenght, 3, aligner.base_lenght_segment)
+
+        comm.send(aligner.score_total, dest=0)
+
+    #------------------------------------------------------------------------------------/
+    
