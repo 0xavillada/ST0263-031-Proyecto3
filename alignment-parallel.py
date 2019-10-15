@@ -19,7 +19,9 @@ class Aligner:
         self.base_lenght = 0
         self.base_index = 0
         self.n_cadenas = 0
+        
         self.cont=0
+        self.control_num_hilos=0;
         
         self.score_total = 0
 
@@ -62,6 +64,7 @@ class Aligner:
                     t.start()
                 else:
                     t = threading.Thread(target=self.calc_score_thread, args=(inicio_thread, fin))
+                    self.control_num_hilos+=1
                     t.start()
                 break
             else:
@@ -74,6 +77,7 @@ class Aligner:
                     t.start()
                 else:
                     t = threading.Thread(target=self.calc_score_thread, args=(inicio_thread, (inicio_thread + segment)))
+                    self.control_num_hilos+=1
                     t.start()
             inicio_thread += segment
 
@@ -116,7 +120,7 @@ class Aligner:
             score_temp += score_column
         self.score_total += score_temp
         print("hilo-",self.score_total)
-
+        self.control_num_hilos+=-1
 
         
     def show(self):
@@ -200,7 +204,7 @@ if error == False:
         aligner.threading_segments(0, base_lenght_medium, 3, aligner.base_lenght_segment)
         while not comm.Iprobe(source=1, tag=11):
             time.sleep(0.1)
-        while(aligner.score_total==0):
+        while(aligner.score_total==0 or aligner.control_num_hilos>0):
             time.sleep(0.1) 
         time.sleep(1)
         print("-Master",aligner.score_total)
@@ -215,7 +219,7 @@ if error == False:
         #aligner.calc_score(base_lenght_medium,aligner.base_lenght)
 
         aligner.threading_segments(base_lenght_medium, aligner.base_lenght, 3, aligner.base_lenght_segment)
-        while(aligner.score_total==0):
+        while(aligner.score_total==0 or aligner.control_num_hilos>0):
             time.sleep(0.1)
         time.sleep(1)
         comm.send(aligner.score_total, dest=0,tag=11)
