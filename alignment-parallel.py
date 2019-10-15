@@ -213,6 +213,7 @@ if error == False:
         #aligner.calc_score(base_lenght_medium,aligner.base_lenght)
 
         aligner.threading_segments(base_lenght_medium, aligner.base_lenght, 3, aligner.base_lenght_segment)
+        time.sleep(0.5)
         print(aligner.score_total)
         comm.send(aligner.score_total, dest=0,tag=11)
     #------------------------------------------------------------------------------------/
