@@ -85,7 +85,7 @@ def main():
                     else:
                         score_column += match_value
                 else:
-                    lose++
+                    lose+=1
                     score_column += mismatch_value
         if(score_column<200):
             print("*  " + lose)
