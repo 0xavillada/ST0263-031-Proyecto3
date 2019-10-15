@@ -13,34 +13,68 @@ El cálculo del puntaje se lleva a cabo mediante la entrada, dando como penaliza
 
 ## Ejemplo:
 
-Entrada:
+#### Entrada:
+
 match points= +1
+
 mismatch points= -1
+
 gap points= 0
 
 ATATCCG
+
 TCCG
+
 ATGTACTG
+
 ATGTCTG
 
-Salida:
+#### Salida:
+
 Puntaje= 4
+
 Tasa= 4/4 = 1
 
 "A T G T A C T G"
+
 "A T -  A T C C G"
+
 "A T G T -  C T G"
+
 "- T - - -  C C G"
 
 #### Aquí el score por ejemplo de la columna 3 es:
 G
+
 "-"
+
 G
+
 "-"
 
 score = score(G,-) + score(G, G) + score(G,-) + score(-,G) + score (-,-) + score(G,-)
           =        -1        +         1         +       -1        +        -1        +        0       +       -1
+
           =  -3
+# Desarrollo:
+
+## Modulos:
+El problema se divide en 4 puntos importantes, los cuales son :
+- Lectura de archivo: Leer las cadenas de adn y transferirlas a una matriz
+- Rellenado de dna incompletos: Rellenar los dna con "-" para que queden de igual tamaño a la secuencia de adn mas completa
+- Alineamiento de los dna: Alinear los dna de tal forma que quede lo mas similar al adn mas completo
+- Score :Adquirir secore de la matriz formada de dna y determinar por un puntaje que el usuario determina
+
+## Implementacion:
+Para este problema se utilizo el lenguaje python acompañada de:
+- mpi4py para el uso de mpi
+- threading para el uso manual de open mp
+
+### Que no se paralelizo?
+- Lectura de archivo: ya que la libreria que maneja python solo permite leer linea por linea, impidiendo una lectura mas agil
+### Que se paralelizo?
+Antes que nada el programa se ejecuta con 2 nodos(mpi),que a medida se van dando las situaciones el nodo maestro y los trabajadores van compartiendo informacion.
+-Relleno de dna incompletos:Aparte 
 
 
 # Correr el programa serial:
@@ -54,3 +88,14 @@ mpiexec -f ./hosts_mpi -np "numero de nodos" /opt/anaconda3/bin/python ./alignme
 
 Ejemplo:$ time mpiexec -f ./hosts_mpi -np 2 /opt/anaconda3/bin/python ./alignment-parallel.py dna50.txt 1 -1 0 2 
 (corriendo con 2 nodos, el archivo "dna50.txt" con score(1 mach)(-1 missmach)(0 gab) y 2 hilos))
+
+# Test
+## (Test (Dna50.txt))
+
+Test (Dna50.txt)
+![alt text](https://i.ibb.co/2891G0C/1grafic.png)
+Tabla #1 (Grafica Speedup y eficiencia) y datos del serial
+
+![alt text](https://i.ibb.co/L07bZjn/2grafic.png)
+
+Tabla #2(comparativa del tiempo de la mejor speedup-eficiencia con respecto al serial )
