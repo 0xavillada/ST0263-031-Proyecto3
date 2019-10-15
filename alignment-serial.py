@@ -74,11 +74,12 @@ def main():
 
     #--------------------------------------------------------------calculo de score total
     score_total_temp = 0
+    lose=0
+    gaspin=0
+    win=0
     for j in range(base_lenght):
         score_column = 0
-        lose=0
-        gaspin=0
-        win=0
+        
         for i in range(n_cadenas-1):
             for k in range(i+1, n_cadenas):
                 if cadenas[k][j] == cadenas[i][j]:
