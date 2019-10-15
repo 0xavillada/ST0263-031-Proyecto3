@@ -188,7 +188,6 @@ if error == False:
 
         comm.send(aligner.cadenas[n_cadenas_medium:], dest=0)
         while not comm.Iprobe(source=0, tag=12):
-            print ('rank 1 wait matrix...')
             time.sleep(0.1)
         aligner.cadenas = comm.recv(source=0)
 
@@ -204,6 +203,7 @@ if error == False:
         while(aligner.score_total==0):
             time.sleep(0.1) 
         time.sleep(0.5)
+        print("-Master",aligner.score_total)
         otherRank_score = comm.recv(source=1)        
         print(otherRank_score)
         aligner.score_total += otherRank_score
