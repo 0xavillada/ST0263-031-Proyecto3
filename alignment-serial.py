@@ -45,7 +45,7 @@ def main():
     
     n_cadenas = len(cadenas)
     base_lenght = base_lenght_temp
-    print("cadenas-",n_cadenas," Tamaño mayor",base_lenght)
+    print("cadenas",n_cadenas," Tamaño mayor",base_lenght)
     base_index = base_index_temp
     #-----------------------------------------------------------------------------------/
 
