@@ -200,7 +200,6 @@ if error == False:
 
         aligner.threading_segments(0, base_lenght_medium, 3, aligner.base_lenght_segment)
         while not comm.Iprobe(source=1, tag=11):
-            print ('rank 0 wait score...')
             time.sleep(0.2)
         while(aligner.score_total==0):
             time.sleep(0.1) 
