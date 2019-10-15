@@ -179,7 +179,7 @@ if error == False:
 
         otherRank_cadenas = comm.recv(source=1)
         aligner.cadenas = aligner.cadenas[:n_cadenas_medium] + otherRank_cadenas
-        comm.send(aligner.cadenas, dest=1)
+        comm.send(aligner.cadenas, dest=1, tag=12)
 
     if rank == 1:
         #aligner.align(n_cadenas_medium,aligner.n_cadenas)
@@ -187,6 +187,9 @@ if error == False:
         aligner.threading_segments(n_cadenas_medium, aligner.n_cadenas, 2, aligner.base_lenght_segment)
 
         comm.send(aligner.cadenas[n_cadenas_medium:], dest=0)
+        while not comm.Iprobe(source=0, tag=12):
+            print 'rank 1 wait matrix...'
+            time.sleep(0.1)
         aligner.cadenas = comm.recv(source=0)
 
     #------------------------------------------------------------------------------------/
