@@ -78,6 +78,7 @@ def main():
         score_column = 0
         lose=0
         gaspin=0
+        win=0
         for i in range(n_cadenas-1):
             for k in range(i+1, n_cadenas):
                 if cadenas[k][j] == cadenas[i][j]:
@@ -86,12 +87,14 @@ def main():
                         gaspin+=1
                     else:
                         score_column += match_value
+                        win+=1
                 else:
                     lose+=1
                     score_column += mismatch_value
-        if(score_column<200):
-            print("*  ", gaspin)
         score_total_temp += score_column
+        print("*  ", gaspin)
+        print("-  ", win)
+        print("+  ", lose)
     score_total = score_total_temp
     #------------------------------------------------------------------------------------/
 
