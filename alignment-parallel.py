@@ -118,6 +118,7 @@ class Aligner:
             score_temp += score_column
         self.score_total += score_temp
         print(self.cont)
+        print(score_temp)
 
 
         
