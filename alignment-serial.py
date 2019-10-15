@@ -30,16 +30,17 @@ def main():
 
     base_lenght_temp = 0
     base_index_temp = 0
+    is_windows=1
     for line in fl:
         if line[len(line)-1] == "\n":
-            cadenas.append(line[:-2])
+            cadenas.append(line[:-1-is_windows])
             if len(line)-1 > base_lenght_temp:
-                base_lenght_temp = len(line)-1
+                base_lenght_temp = len(line)-1-is_windows
                 base_index_temp = index
         else:
             cadenas.append(line)
             if len(line) > base_lenght_temp:
-                base_lenght_temp = len(line)
+                base_lenght_temp = len(line)-is_windows
                 base_index = index
         index += 1
     
