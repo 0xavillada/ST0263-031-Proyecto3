@@ -15,7 +15,6 @@ class Aligner:
 
         except:
             raise ValueError("> Usage: python alignment-serial.py <strings file> <match value> <mismatch value> <gap value> <number of threads>")
-        print("constructor")
         self.cadenas = []
         self.base_lenght = 0
         self.base_index = 0
@@ -116,7 +115,7 @@ class Aligner:
                 
             score_temp += score_column
         self.score_total += score_temp
-
+        print(self.score_total)
 
 
         
