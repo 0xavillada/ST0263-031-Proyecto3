@@ -53,7 +53,7 @@ def main():
     #-------------------------------------------------------------------------fill matriz
     print(cadenas)
     for i in range(n_cadenas):
-        cadenas[i] = cadenas[i][:1] + "-"*(base_lenght-len(cadenas[i])) +"\r"
+        cadenas[i] = cadenas[i][:-1] + "-"*(base_lenght-len(cadenas[i])) +"\r"
     print("-----")
     print(cadenas)
     #------------------------------------------------------------------------------------/
