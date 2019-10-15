@@ -146,7 +146,7 @@ except ValueError:
 if error == False:
     
     comm = MPI.COMM_WORLD
-    rank = comm.rank
+    rank = comm.Get_rank()
     name = MPI.Get_processor_name()
     n_cadenas_medium = int((aligner.n_cadenas / 2) - ((aligner.n_cadenas / 2) % 1))
     base_lenght_medium = int((aligner.base_lenght /2) - ((aligner.base_lenght / 2) % 1))
