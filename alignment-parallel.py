@@ -199,17 +199,14 @@ if error == False:
         #aligner.calc_score(0,base_lenght_medium)
 
         aligner.threading_segments(0, base_lenght_medium, 3, aligner.base_lenght_segment)
-        req =comm.Irecv(workscore,source=1)
-        req.Wait()
-        #while not comm.Iprobe(source=1, tag=11):
-        #    print ('rank 0 wait score...')
-        #    time.sleep(0.2)
-        #if(aligner.score_total==0):
-        #    print ('rank 0 wait my score...')
-        #    time.sleep(1) 
-        #time.sleep(0.5)
-        #otherRank_score = comm.recv(source=1)
-        
+        while not comm.Iprobe(source=1, tag=11):
+            print ('rank 0 wait score...')
+            time.sleep(0.2)
+        if(aligner.score_total==0):
+            print ('rank 0 wait my score...')
+            time.sleep(1) 
+        time.sleep(0.5)
+        otherRank_score = comm.recv(source=1)        
         print(otherRank_score)
         aligner.score_total += otherRank_score
     #---------------------------------------------------------------------salida de datos
@@ -221,12 +218,10 @@ if error == False:
         #aligner.calc_score(base_lenght_medium,aligner.base_lenght)
 
         aligner.threading_segments(base_lenght_medium, aligner.base_lenght, 3, aligner.base_lenght_segment)
-        #if(aligner.score_total==0):
-        #    time.sleep(1)
-        #time.sleep(0.5)
-        #comm.send(aligner.score_total, dest=0,tag=11)
-        req = comm.Isend(aligner.score_total, dest=0)
-        req.Wait()
+        if(aligner.score_total==0):
+            time.sleep(1)
+        time.sleep(0.5)
+        comm.send(aligner.score_total, dest=0,tag=11)
         print("-Esclavo",aligner.score_total)
     #------------------------------------------------------------------------------------/
     
