@@ -211,6 +211,6 @@ if error == False:
         aligner.threading_segments(base_lenght_medium, aligner.base_lenght, 3, aligner.base_lenght_segment)
 
         comm.send(aligner.score_total, dest=0)
-
+        time.sleep(0.5)
     #------------------------------------------------------------------------------------/
     
