@@ -176,9 +176,7 @@ if error == False:
         #aligner.align(0,n_cadenas_medium)
 
         aligner.threading_segments(0, n_cadenas_medium, 2, aligner.base_lenght_segment)
-        while not comm.Iprobe(source=1, tag=12):
-            print ('rank 0 wait work alinea...')
-            time.sleep(0.1)
+
         otherRank_cadenas = comm.recv(source=1)
         aligner.cadenas = aligner.cadenas[:n_cadenas_medium] + otherRank_cadenas
         comm.send(aligner.cadenas, dest=1)
@@ -188,7 +186,7 @@ if error == False:
 
         aligner.threading_segments(n_cadenas_medium, aligner.n_cadenas, 2, aligner.base_lenght_segment)
 
-        comm.send(aligner.cadenas[n_cadenas_medium:], dest=0,tag=12)
+        comm.send(aligner.cadenas[n_cadenas_medium:], dest=0)
         aligner.cadenas = comm.recv(source=0)
 
     #------------------------------------------------------------------------------------/
