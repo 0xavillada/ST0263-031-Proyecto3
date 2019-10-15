@@ -40,7 +40,7 @@ def main():
         else:
             cadenas.append(line)
             if len(line) > base_lenght_temp:
-                base_lenght_temp = len(line)-is_windows
+                base_lenght_temp = len(line)
                 base_index = index
         index += 1
     
