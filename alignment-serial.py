@@ -74,6 +74,7 @@ def main():
 
     #--------------------------------------------------------------calculo de score total
     score_total_temp = 0
+    lose=0
     for j in range(base_lenght):
         score_column = 0
         for i in range(n_cadenas-1):
@@ -84,9 +85,10 @@ def main():
                     else:
                         score_column += match_value
                 else:
+                    lose++
                     score_column += mismatch_value
         if(score_column<200):
-            print("*")
+            print("*  " + lose)
         score_total_temp += score_column
     score_total = score_total_temp
     #------------------------------------------------------------------------------------/
