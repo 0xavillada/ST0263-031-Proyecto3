@@ -93,10 +93,6 @@ def main():
                     lose+=1
                     score_column += mismatch_value
         score_total_temp += score_column
-        print("*  ", gaspin)
-        print("-  ", win)
-        print("+  ", lose)
-        print("---")
     score_total = score_total_temp
     #------------------------------------------------------------------------------------/
 
