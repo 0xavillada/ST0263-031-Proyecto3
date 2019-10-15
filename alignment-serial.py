@@ -32,7 +32,7 @@ def main():
     base_index_temp = 0
     for line in fl:
         if line[len(line)-1] == "\n":
-            cadenas.append(line[:-1])
+            cadenas.append(line[:-2])
             if len(line)-1 > base_lenght_temp:
                 base_lenght_temp = len(line)-1
                 base_index_temp = index
@@ -53,7 +53,7 @@ def main():
     #-------------------------------------------------------------------------fill matriz
     print(cadenas)
     for i in range(n_cadenas):
-        cadenas[i] = cadenas[i][:-1] + "-"*(base_lenght-len(cadenas[i])) +"\r"
+        cadenas[i] = cadenas[i] + "-"*(base_lenght-len(cadenas[i])) 
     print("-----")
     print(cadenas)
     #------------------------------------------------------------------------------------/
