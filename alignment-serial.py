@@ -95,6 +95,7 @@ def main():
         print("*  ", gaspin)
         print("-  ", win)
         print("+  ", lose)
+        print("---")
     score_total = score_total_temp
     #------------------------------------------------------------------------------------/
 
