@@ -15,7 +15,7 @@ class Aligner:
 
         except:
             raise ValueError("> Usage: python alignment-serial.py <strings file> <match value> <mismatch value> <gap value> <number of threads>")
-
+        print("constructor")
         self.cadenas = []
         self.base_lenght = 0
         self.base_index = 0
@@ -137,7 +137,8 @@ class Aligner:
         
 error = False
 try:
-    aligner = Aligner()
+    if rank == 0:
+        aligner = Aligner()
 except ValueError:
     error_type, error_instance, traceback = sys.exc_info()
     print(error_instance)
