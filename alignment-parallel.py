@@ -204,8 +204,7 @@ if error == False:
             time.sleep(0.1) 
         time.sleep(0.5)
         print("-Master",aligner.score_total)
-        otherRank_score = comm.recv(source=1)        
-        print(otherRank_score)
+        otherRank_score = comm.recv(source=1)     
         aligner.score_total += otherRank_score
     #---------------------------------------------------------------------salida de datos
         aligner.show()
