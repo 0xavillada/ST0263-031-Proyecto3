@@ -47,7 +47,8 @@ def main():
     n_cadenas = len(cadenas)
     base_lenght = base_lenght_temp 
     base_index = base_index_temp
-    print("--:"",cadenas[base_index])
+    print("--:"" + cadenas[base_index])
+          
     #-----------------------------------------------------------------------------------/
 
     #-------------------------------------------------------------------------fill matriz
