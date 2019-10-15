@@ -137,8 +137,7 @@ class Aligner:
         
 error = False
 try:
-    if rank == 0:
-        aligner = Aligner()
+    aligner = Aligner()
 except ValueError:
     error_type, error_instance, traceback = sys.exc_info()
     print(error_instance)
