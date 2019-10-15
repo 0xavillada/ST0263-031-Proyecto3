@@ -119,6 +119,7 @@ class Aligner:
         self.score_total += score_temp
         print("-Sco",score_temp)
         print(self.cont)
+        print(inicio,fin)
         
     def show(self):
         #print(self.cadenas)
