@@ -120,6 +120,7 @@ class Aligner:
         print("-Sco",score_temp)
         print(self.cont)
         print(inicio,fin)
+        print("====")
         
     def show(self):
         #print(self.cadenas)
