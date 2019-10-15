@@ -113,9 +113,8 @@ class Aligner:
                     else:
                         score_column += self.mismatch_value
                         self.cont+=1
+                print(self.cont)
             score_temp += score_column
-            if(score_column<200):
-                print("*")
         self.score_total += score_temp
         print("-Sco",score_temp)
         print(self.cont)
