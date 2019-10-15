@@ -34,7 +34,7 @@ def main():
         if line[len(line)-1] == "\n":
             cadenas.append(line[:-1])
             if len(line)-1 > base_lenght_temp:
-                base_lenght_temp = len(line.replace(" ", ""))-1
+                base_lenght_temp = len(line)-1
                 base_index_temp = index
         else:
             cadenas.append(line)
@@ -44,7 +44,7 @@ def main():
         index += 1
     
     n_cadenas = len(cadenas)
-    base_lenght = base_lenght_temp
+    base_lenght = base_lenght_temp -1
     base_index = base_index_temp
     print("Numero de cadenas: ",n_cadenas)
     print("Longitud de la base: ",base_lenght)
