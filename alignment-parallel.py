@@ -196,7 +196,7 @@ if error == False:
     if rank == 0:
         #aligner.calc_score(0,base_lenght_medium)
 
-        aligner.threading_segments(0, base_lenght_medium, 3, aligner.n_cadenas_segment)
+        aligner.threading_segments(0, base_lenght_medium, 3, aligner.base_lenght_segment)
 
         otherRank_score = comm.recv(source=1)
         aligner.score_total += otherRank_score
@@ -208,7 +208,7 @@ if error == False:
     if rank == 1:
         #aligner.calc_score(base_lenght_medium,aligner.base_lenght)
 
-        aligner.threading_segments(base_lenght_medium, aligner.base_lenght, 3, aligner.n_cadenas_segment)
+        aligner.threading_segments(base_lenght_medium, aligner.base_lenght, 3, aligner.base_lenght_segment)
 
         comm.send(aligner.score_total, dest=0)
 
