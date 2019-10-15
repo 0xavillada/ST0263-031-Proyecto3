@@ -88,7 +88,7 @@ def main():
                     lose+=1
                     score_column += mismatch_value
         if(score_column<200):
-            print("*  " + lose)
+            print("*  ", lose)
         score_total_temp += score_column
     score_total = score_total_temp
     #------------------------------------------------------------------------------------/
