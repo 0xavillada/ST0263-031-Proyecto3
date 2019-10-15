@@ -133,7 +133,7 @@ class Aligner:
         f = open(self.fichero[:-4]+"_out_parallel.txt", "w+")
         for x in self.cadenas:
             f.write(x+"\n")
-        comm.Abort()
+
         
 error = False
 try:
@@ -202,6 +202,7 @@ if error == False:
     #---------------------------------------------------------------------salida de datos
         time.sleep(0.5)
         aligner.show()
+        comm.Abort()
     #------------------------------------------------------------------------------------/
 
 
