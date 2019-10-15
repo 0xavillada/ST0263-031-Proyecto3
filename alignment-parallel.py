@@ -44,8 +44,9 @@ class Aligner:
                     self.base_index = index
             index += 1
         self.n_cadenas = len(self.cadenas)
-       
+
         self.base_lenght_segment = int(self.base_lenght / self.n_threads)
+        print("cadenas-",self.n_cadenas," Tamaño mayor",self.base_lenght_segment)
         self.n_cadenas_segment = int(self.n_cadenas / self.n_threads)
 
 
@@ -112,7 +113,7 @@ class Aligner:
             self.score_total += score_column
 
     def show(self):
-        print(self.cadenas)
+        #print(self.cadenas)
         f = open(self.fichero[:-4]+"_out.txt","w+")
         for x in self.cadenas:
             f.write(x+"\n")
