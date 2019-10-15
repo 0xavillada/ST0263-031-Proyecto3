@@ -30,7 +30,7 @@ class Aligner:
             raise ValueError("> Error: could not open file", self.fichero)
 
         index = 0
-        is_windows=1
+        is_windows=0
         for line in fl:
             if line[len(line)-1] == "\n":
                 self.cadenas.append(line[:-1-is_windows])
