@@ -124,7 +124,7 @@ class Aligner:
         print("Score: ",self.score_total)
         print("Tasa: ",self.score_total/self.n_cadenas)
         f = open(self.fichero[:-4]+"_out_parallel.txt", "w+")
-        for x in cadenas:
+        for x in self.cadenas:
             f.write(x+"\n")
         
 error = False
