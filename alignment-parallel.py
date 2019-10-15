@@ -33,7 +33,7 @@ class Aligner:
 
         for line in fl:
             if line[len(line)-1] == "\n":
-                self.cadenas.append(line[:-1])
+                self.cadenas.append(line[:-2])
                 if len(line)-1 > self.base_lenght:
                     self.base_lenght = len(line)-1
                     self.base_index = index
