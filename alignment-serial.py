@@ -47,7 +47,6 @@ def main():
     n_cadenas = len(cadenas)
     base_lenght = base_lenght_temp 
     base_index = base_index_temp
-    print(cadenas[base_index])
           
     #-----------------------------------------------------------------------------------/
 
@@ -86,7 +85,7 @@ def main():
                         score_column += match_value
                 else:
                     score_column += mismatch_value
-        if(score_column>230):
+        if(score_column<200):
             print("*")
         score_total_temp += score_column
     score_total = score_total_temp
