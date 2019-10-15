@@ -204,7 +204,7 @@ if error == False:
             time.sleep(0.2)
         if(aligner.score_total==0):
             print ('rank 0 wait my score...')
-            time.sleep(0.5) 
+            time.sleep(1) 
         time.sleep(0.5)
         otherRank_score = comm.recv(source=1)
         print(otherRank_score)
@@ -219,7 +219,7 @@ if error == False:
 
         aligner.threading_segments(base_lenght_medium, aligner.base_lenght, 3, aligner.base_lenght_segment)
         if(aligner.score_total==0):
-            time.sleep(0.5)
+            time.sleep(1)
         time.sleep(0.5)
         print("-Esclavo",aligner.score_total)
         comm.send(aligner.score_total, dest=0,tag=11)
