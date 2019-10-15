@@ -198,13 +198,13 @@ if error == False:
         aligner.threading_segments(0, base_lenght_medium, 3, aligner.base_lenght_segment)
         while not comm.Iprobe(source=1, tag=11):
             print ('rank 0 wait work...')
-            time.sleep(1)
-            
+            time.sleep(0.1)
+        if(aligner.score_total=0):
+            time.sleep(0.5)            
         otherRank_score = comm.recv(source=1)
         print(otherRank_score)
         aligner.score_total += otherRank_score
     #---------------------------------------------------------------------salida de datos
-        time.sleep(0.5)
         aligner.show()
     #------------------------------------------------------------------------------------/
 
@@ -213,7 +213,8 @@ if error == False:
         #aligner.calc_score(base_lenght_medium,aligner.base_lenght)
 
         aligner.threading_segments(base_lenght_medium, aligner.base_lenght, 3, aligner.base_lenght_segment)
-        time.sleep(0.5)
+        if(aligner.score_total=0):
+            time.sleep(0.5)
         print(aligner.score_total)
         comm.send(aligner.score_total, dest=0,tag=11)
     #------------------------------------------------------------------------------------/
