@@ -99,7 +99,6 @@ class Aligner:
 
     def calc_score_thread(self, inicio, fin):
         score_temp=0
-        print(inicio,fin)
         for j in range(inicio,fin):
             score_column = 0
             for i in range(self.n_cadenas-1):                
@@ -117,8 +116,7 @@ class Aligner:
                 
             score_temp += score_column
         self.score_total += score_temp
-        print(self.cont)
-        print(score_temp)
+
 
 
         
@@ -200,6 +198,7 @@ if error == False:
         aligner.threading_segments(0, base_lenght_medium, 3, aligner.base_lenght_segment)
 
         otherRank_score = comm.recv(source=1)
+        print(otherRank_score)
         aligner.score_total += otherRank_score
     #---------------------------------------------------------------------salida de datos
         time.sleep(0.5)
