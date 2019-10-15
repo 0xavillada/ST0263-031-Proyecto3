@@ -101,6 +101,7 @@ class Aligner:
         for j in range(inicio,fin):
             score_column = 0
             for i in range(self.n_cadenas-1):
+                print("+")
                 for k in range(i+1, self.n_cadenas):
                     if self.cadenas[k][j] == self.cadenas[i][j]:
                         if self.cadenas[k][j] == "-":
