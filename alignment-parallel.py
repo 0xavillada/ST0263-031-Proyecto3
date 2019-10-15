@@ -20,7 +20,8 @@ class Aligner:
         self.base_lenght = 0
         self.base_index = 0
         self.n_cadenas = 0
-
+        self.cont=0
+        
         self.score_total = 0
 
         try:
@@ -105,15 +106,19 @@ class Aligner:
                     if self.cadenas[k][j] == self.cadenas[i][j]:
                         if self.cadenas[k][j] == "-":
                             score_column += self.gap_value
+                            self.cont+=1
                         else:
                             score_column += self.match_value
+                            self.cont+=1
                     else:
-                        score_column += self.mismatch_value                        
+                        score_column += self.mismatch_value
+                        self.cont+=1
             score_temp += score_column
             if(score_column<200):
                 print("*")
         self.score_total += score_temp
         print("-Sco",score_temp)
+        print(self.cont)
         
     def show(self):
         #print(self.cadenas)
