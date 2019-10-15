@@ -44,7 +44,6 @@ class Aligner:
                     self.base_index = index
             index += 1
         self.n_cadenas = len(self.cadenas)
-        print("--:",self.cadenas[self.base_index])
         self.base_lenght_segment = int(self.base_lenght / self.n_threads)
         self.n_cadenas_segment = int(self.n_cadenas / self.n_threads)
 
