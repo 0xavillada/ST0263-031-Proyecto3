@@ -63,7 +63,7 @@ El problema se divide en 4 puntos importantes, los cuales son :
 - Lectura de archivo: Leer las cadenas de adn y transferirlas a una matriz.
 - Rellenado de adn incompletos: Rellenar los dna con "-" para que queden de igual tamaño a la secuencia de adn mas completa.
 - Alineamiento de los dna: Alinear los adn de tal forma que quede lo mas similar al adn mas completo.
-- Score :Adquirir secore de la matriz formada de adn y determinar por un puntaje que el usuario determina.
+- Score: Adquirir score de la matriz formada de adn y determinar por un puntaje que el usuario determina.
 
 ## Implementacion:
 Para este problema se utilizo el lenguaje python acompañada de:
