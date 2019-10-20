@@ -95,10 +95,14 @@ Ejemplo:
 
 # Test
 ## (Test (Dna50.txt))
+
 Test (Dna50.txt): Este test contiene 50 secuencias de dna y cada secuencia contiene de (5000mil a 11mil nucleótidos)
+
 En este test se evidencia la gran mejora de tiempo, trar aplicar un poco de paralelismo tanto de openmp(1-32 hilos) y mpi(1-2 nodos).
 viendo una mejora de hasta 2 veces, en comparativa del serial al paralelo.
+
 ![alt text](https://i.ibb.co/3Nf8mBL/Untitled.png)
+
 Tabla #1 (Grafica Speedup y eficiencia) y datos del serial
 Se determina que una de las opciones mas optimas es la utilizacion de 4 hilos,2 nodos), ya que desde este punto en adelante la mejora en el tiempo va siendo reducida,ademas de la eficiencia.
 
