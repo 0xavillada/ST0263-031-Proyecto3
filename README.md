@@ -95,14 +95,14 @@ Ejemplo:
 
 # Test
 ## (Test (Dna50.txt))
-Test (Dna50.txt)
-En este test se evidencia la gran mejor de tiempo, trar aplicar un poco de paralelismo tanto de openmp y mpi.
-viendo una mejora de hasta 3 veces, en comparativa del serial al paralelo.
-![alt text](https://i.ibb.co/2891G0C/1grafic.png)
+Test (Dna50.txt): Este test contiene 50 secuencias de dna y cada secuencia contiene de (5000mil a 11mil nucleótidos)
+En este test se evidencia la gran mejora de tiempo, trar aplicar un poco de paralelismo tanto de openmp(1-32 hilos) y mpi(1-2 nodos).
+viendo una mejora de hasta 2 veces, en comparativa del serial al paralelo.
+![alt text](https://i.ibb.co/3Nf8mBL/Untitled.png)
 Tabla #1 (Grafica Speedup y eficiencia) y datos del serial
-Se determina que una de las opciones mas optimas es la utilizacion de 5 hilos , ya que desde este punto en adelante la mejora en el tiempo va siendo reducida,ademas de la eficiencia.
+Se determina que una de las opciones mas optimas es la utilizacion de 4 hilos,2 nodos), ya que desde este punto en adelante la mejora en el tiempo va siendo reducida,ademas de la eficiencia.
 
-![alt text](https://i.ibb.co/L07bZjn/2grafic.png)
+![alt text](https://i.ibb.co/kGWV6kS/Capture.png)
 
 Tabla #2(comparativa del tiempo de la mejor speedup-eficiencia con respecto al serial )
-Evidencia de que puede lograrse una velocidad 3 veces mejor el pararlelo que la serial
+Evidencia de que puede lograrse una velocidad 2 veces mejor aplicando MPI(2 nodos) y open mp(4 hilos) que la serial
