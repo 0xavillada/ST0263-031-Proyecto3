@@ -57,7 +57,7 @@ class Aligner:
 
 
     def threading_segments(self, inicio, fin, target_thread, segment):
-        print("threading desde ", inicio, " hasta ",fin," segment: ",segment)
+        #print("threading desde ", inicio, " hasta ",fin," segment: ",segment)
         if segment == 0:
            segment = 1
         inicio_thread = inicio
@@ -93,13 +93,13 @@ class Aligner:
             inicio_thread += segment
 
     def fill_matriz_thread(self, inicio, fin):
-        print("hilo fill desde: ", inicio," hasta: ", fin)
+        #print("hilo fill desde: ", inicio," hasta: ", fin)
         for i in range(inicio,fin):
             self.cadenas[i] = self.cadenas[i] + "-"*(self.base_lenght-len(self.cadenas[i]))
         self.control_num_hilos -=1
 
     def align_thread(self, inicio, fin):
-        print("hilo align desde: ", inicio," hasta: ", fin)
+        #print("hilo align desde: ", inicio," hasta: ", fin)
         for i in range(inicio,fin):
             for j in range(self.base_lenght-1,1,-1):
                 if i == self.base_index or self.cadenas[i][j] != "-":
@@ -116,7 +116,7 @@ class Aligner:
         self.control_num_hilos -=1
 
     def calc_score_thread(self, inicio, fin):
-        print("hilo score desde: ", inicio," hasta: ", fin)
+        #print("hilo score desde: ", inicio," hasta: ", fin)
         score_temp=0
         for j in range(inicio,fin):
             score_column = 0
@@ -150,11 +150,7 @@ class Aligner:
         print("Longitud de la base: ",self.base_lenght)
         print("Score: ",self.score_total)
         print("Tasa: ",self.score_total/self.n_cadenas)
-        """f = open(self.fichero[:-4]+"_out_parallel.txt", "w+")
-        for x in self.cadenas:
-            f.write(x+"\n")"""
 
-        
 error = False
 try:
     aligner = Aligner()
@@ -164,10 +160,7 @@ except ValueError:
     error = True
 
 if error == False:
-    
-    """comm = MPI.COMM_WORLD
-    rank = comm.Get_rank()
-    name = MPI.Get_processor_name()"""
+
     n_cadenas_medium = int((aligner.n_cadenas / size) - ((aligner.n_cadenas / size) % 1))
     base_lenght_medium = int((aligner.base_lenght / size) - ((aligner.base_lenght / size) % 1))
 
@@ -182,13 +175,13 @@ if error == False:
             #print("filling by nodo: 0"," con ",aligner.control_num_hilos," hilos")
             #time.sleep(0.5)
             pass
-        print("filled")
+        #print("filled")
         aligner.threading_segments(0, aligner.n_cadenas, 2, aligner.n_cadenas_segment)
         while aligner.control_num_hilos > 0:
             #print("aligning by nodo: 0"," con ",aligner.control_num_hilos," hilos")
             #time.sleep(0.5)
             pass
-        print("aligned")
+        #print("aligned")
         aligner.threading_segments(0, aligner.base_lenght, 3, aligner.base_lenght_segment)
         while aligner.control_num_hilos > 0:
             #print("scoring by nodo: 0"," con ",aligner.control_num_hilos," hilos")
@@ -237,8 +230,6 @@ if error == False:
         while aligner.control_num_hilos > 0:
             pass
         comm.send(aligner.cadenas[n_cadenas_medium:], dest=0)
-        """while not comm.Iprobe(source=0, tag=12):
-            time.sleep(0.1)"""
         aligner.cadenas = comm.recv(source=0)
 
     #------------------------------------------------------------------------------------/
@@ -248,14 +239,9 @@ if error == False:
         #aligner.calc_score(0,base_lenght_medium)
 
         aligner.threading_segments(0, base_lenght_medium, 3, aligner.base_lenght_segment)
-        """while not comm.Iprobe(source=1, tag=11):
-            time.sleep(0.1)
-        while(aligner.score_total==0 or aligner.control_num_hilos>0):
-            time.sleep(0.1) 
-        time.sleep(1)"""
         while aligner.control_num_hilos > 0:
             pass
-        print("-Master",aligner.score_total)
+        #print("-Master",aligner.score_total)
         otherRank_score = comm.recv(source=1)     
         aligner.score_total += otherRank_score
     #---------------------------------------------------------------------salida de datos
@@ -267,12 +253,9 @@ if error == False:
         #aligner.calc_score(base_lenght_medium,aligner.base_lenght)
 
         aligner.threading_segments(base_lenght_medium, aligner.base_lenght, 3, aligner.base_lenght_segment)
-        """while(aligner.score_total==0 or aligner.control_num_hilos>0):
-            time.sleep(0.1)
-        time.sleep(1)"""
         while aligner.control_num_hilos > 0:
             pass
         comm.send(aligner.score_total, dest=0,tag=11)
-        print("-Esclavo",aligner.score_total)
+        #print("-Esclavo",aligner.score_total)
     #------------------------------------------------------------------------------------/
     
