@@ -112,6 +112,8 @@ Tabla #2(comparativa del tiempo de la mejor speedup-eficiencia con respecto al s
 Evidencia de que puede lograrse una velocidad 2 veces mejor aplicando MPI(2 nodos) y open mp(4 hilos) que la serial
 
 # Sustentacion
-
+- https://youtu.be/D7_EruRdhK4 - Santiago Ortiz Cano:Lectura y llenado
 - https://youtu.be/-VSynlhlvDQ - Andres Felipe Villada: Alineamiento
+
+
 
