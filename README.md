@@ -110,3 +110,8 @@ Se determina que una de las opciones mas optimas es la utilizacion de 4 hilos,2 
 
 Tabla #2(comparativa del tiempo de la mejor speedup-eficiencia con respecto al serial )
 Evidencia de que puede lograrse una velocidad 2 veces mejor aplicando MPI(2 nodos) y open mp(4 hilos) que la serial
+
+# Sustentacion
+
+- https://youtu.be/-VSynlhlvDQ - Andres Felipe Villada: Alineamiento
+
