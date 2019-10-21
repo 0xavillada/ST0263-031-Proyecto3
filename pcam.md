@@ -23,3 +23,6 @@ También se debe recibir el resultado de cada hilo de ejecución para hallar la 
 ## Mapeo
 
 Cada hilo recibe partes iguales (o casi iguales si no eran pares) de la matriz, de esta manera cada hilo de procesamiento puede realizar su ejecución de manera independiente, de la misma manera cada nodo recibe partes iguales de la matriz para que este distribuya las cargas en cada hilo de procesamiento. Así se optimizan los recursos obtenidos para ejecutar el proceso y hay un balanceo de cargas adecuado. Como se describió anteriormente, cada hilo envía su resultado para generar la matriz resultante y enviar esta al proceso siguiente.
+
+
+![Modelo](pcam-4.png)
