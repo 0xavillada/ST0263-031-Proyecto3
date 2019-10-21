@@ -114,6 +114,7 @@ Evidencia de que puede lograrse una velocidad 2 veces mejor aplicando MPI(2 nodo
 # Sustentacion
 - https://youtu.be/D7_EruRdhK4 - Santiago Ortiz Cano:Lectura y llenado
 - https://youtu.be/-VSynlhlvDQ - Andres Felipe Villada: Alineamiento
+- https://youtu.be/-_ku8BgEUmk - Diego Andrés Giraldo Gómez: Score
 
 
 
