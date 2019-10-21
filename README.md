@@ -80,7 +80,7 @@ Para este problema se utilizo el lenguaje python acompañada de:
 #### NOTA:El programa se ejecuta con 2 nodos(mpi),cada nodo adquiere la mitad de la matriz (cortada de forma horizontal),que a medida se van dando las situaciones el nodo maestro y los trabajadores van compartiendo informacion y como caracter principal .
 
 # Correr el programa serial:
-          python3 aligment-serial.py "fichero con cadenas a alinear" "valor coincidencia" "valor no coincidencia" "valor faltante"
+          mpiexec -f ./hosts_mpi -np 1 /opt/anaconda3/bin/python ./alignment-parallel.py "fichero con cadenas a alinear" "valor coincidencia" "valor no coincidencia" "valor faltante" 1
 
 Ejemplo: 
           $ time python alignment-serial.py dna50.txt -1 1 0
